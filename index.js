@@ -9,6 +9,9 @@ app.use(cors());
 app.use(express.json());
 
 // ==================== CONFIGURACIÓN DE SWAGGER ====================
+// Determinar la URL base para Swagger (Render asigna RENDER_EXTERNAL_URL)
+const baseUrl = process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000';
+
 const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
@@ -18,7 +21,10 @@ const swaggerOptions = {
             description: 'API para la tabla `usuarios` con UUID, roles y estado activo.',
         },
         servers: [
-            { url: 'http://localhost:3000', description: 'Servidor Local' }
+            {
+                url: baseUrl,
+                description: process.env.RENDER_EXTERNAL_URL ? 'Servidor en Render' : 'Servidor Local'
+            }
         ],
         components: {
             schemas: {
